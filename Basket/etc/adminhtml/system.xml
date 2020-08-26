@@ -1,0 +1,19 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="basket" translate="label" sortOrder="10">
+            <label>Basket</label>
+        </tab>
+        <section id="web_basket" translate="label" type="text" sortOrder="1300" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Basket</label>
+            <tab>basket</tab>
+            <resource>Web_Basket::basket_configuration</resource>
+            <group id="general" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Timeout minicart</label>
+                <field id="timeout" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Timeout minicart:</label>
+                    <comment>seconds</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
