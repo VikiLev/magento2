@@ -1,0 +1,10 @@
+<?php $status = $block->getData('getIsEnable'); $log =$block->getData('isLog');
+    if(!$log && $status) : ?>
+<button type="submit"
+        data-mage-init='{"redirectUrl": {"event": "click", "url": "http://magento2/index.php/customer/account/login"}}'
+        title="Log In"
+        class="btn-btn-primary"
+        id="btn-btn-primary">
+    <span><?= /* @escapeNotVerified */ __('Log In') ?></span>
+</button>
+<?php endif; ?>

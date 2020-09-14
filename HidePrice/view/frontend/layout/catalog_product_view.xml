@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Magento\Catalog\Block\Product\View" name="product.info.custombutton" template="Web_HidePrice::login.phtml">
+            <arguments>
+                <argument name="isLog" xsi:type="helper" helper="Web\HidePrice\Helper\Data::isLog"/>
+                <argument name="getIsEnable" xsi:type="helper" helper="Web\HidePrice\Helper\Data::getIsEnable"/>
+            </arguments>
+            </block>
+        </referenceContainer>
+        <move element="product.info.custombutton" destination="product.info.main" after="product.social.links" />
+    </body>
+</page>
