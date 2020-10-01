@@ -1,67 +1,35 @@
 <?php
 
 
-namespace KiwiCommerce\LoginAsCustomer\Model;
+namespace Web\LoginAsCustomer\Model;
+
 
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use KiwiCommerce\LoginAsCustomer\Api\LoginAsCustomerRepositoryInterface;
+use Web\LoginAsCustomer\Api\LoginAsCustomerRepositoryInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
-use KiwiCommerce\LoginAsCustomer\Model\ResourceModel\LoginAsCustomer as ResourceLoginAsCustomer;
+use Web\LoginAsCustomer\Model\ResourceModel\LoginAsCustomer as ResourceLoginAsCustomer;
 use Magento\Framework\Reflection\DataObjectProcessor;
 use Magento\Framework\Api\SortOrder;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\Api\DataObjectHelper;
-use KiwiCommerce\LoginAsCustomer\Api\Data\LoginAsCustomerInterfaceFactory;
-use KiwiCommerce\LoginAsCustomer\Model\ResourceModel\LoginAsCustomer\CollectionFactory as LoginAsCustomerCollectionFactory;
-use KiwiCommerce\LoginAsCustomer\Api\Data\LoginAsCustomerSearchResultsInterfaceFactory;
+use Web\LoginAsCustomer\Api\Data\LoginAsCustomerInterfaceFactory;
+use Web\LoginAsCustomer\Model\ResourceModel\LoginAsCustomer\CollectionFactory as LoginAsCustomerCollectionFactory;
+use Web\LoginAsCustomer\Api\Data\LoginAsCustomerSearchResultsInterfaceFactory;
 
-class LoginAsCustomerRepository implements LoginAsCustomerRepositoryInterface
+class LoginAsCustomerRepository
 {
-    /**
-     * @var DataObjectProcessor
-     */
+
     protected $dataObjectProcessor;
-    /**
-     * @var DataObjectHelper
-     */
     protected $dataObjectHelper;
-    /**
-     * @var LoginAsCustomerCollectionFactory
-     */
     protected $loginAsCustomerCollectionFactory;
-    /**
-     * @var LoginAsCustomerInterfaceFactory
-     */
     protected $dataLoginAsCustomerFactory;
-    /**
-     * @var LoginAsCustomerSearchResultsInterfaceFactory
-     */
     protected $searchResultsFactory;
-    /**
-     * @var loginAsCustomerFactory
-     */
     protected $loginAsCustomerFactory;
-    /**
-     * @var ResourceLoginAsCustomer
-     */
     protected $resource;
-    /**
-     * @var StoreManagerInterface
-     */
     private $storeManager;
 
-    /**
-     * LoginAsCustomerRepository constructor.
-     * @param ResourceLoginAsCustomer $resource
-     * @param loginAsCustomerFactory $loginAsCustomerFactory
-     * @param LoginAsCustomerInterfaceFactory $dataLoginAsCustomerFactory
-     * @param LoginAsCustomerCollectionFactory $loginAsCustomerCollectionFactory
-     * @param LoginAsCustomerSearchResultsInterfaceFactory $searchResultsFactory
-     * @param DataObjectHelper $dataObjectHelper
-     * @param DataObjectProcessor $dataObjectProcessor
-     * @param StoreManagerInterface $storeManager
-     */
+
     public function __construct(
         ResourceLoginAsCustomer $resource,
         loginAsCustomerFactory $loginAsCustomerFactory,
@@ -85,7 +53,7 @@ class LoginAsCustomerRepository implements LoginAsCustomerRepositoryInterface
      * {@inheritdoc}
      */
     public function save(
-        \KiwiCommerce\LoginAsCustomer\Api\Data\LoginAsCustomerInterface $loginAsCustomer
+        \Web\LoginAsCustomer\Api\Data\LoginAsCustomerInterface $loginAsCustomer
     ) {
         try {
             $loginAsCustomer->getResource()->save($loginAsCustomer);
@@ -98,9 +66,8 @@ class LoginAsCustomerRepository implements LoginAsCustomerRepositoryInterface
         return $loginAsCustomer;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
+
     public function getById($loginAsCustomerId)
     {
         $loginAsCustomer = $this->loginAsCustomerFactory->create();
@@ -111,9 +78,7 @@ class LoginAsCustomerRepository implements LoginAsCustomerRepositoryInterface
         return $loginAsCustomer;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function getList(
         \Magento\Framework\Api\SearchCriteriaInterface $criteria
     ) {
@@ -141,7 +106,7 @@ class LoginAsCustomerRepository implements LoginAsCustomerRepositoryInterface
         }
         $collection->setCurPage($criteria->getCurrentPage());
         $collection->setPageSize($criteria->getPageSize());
-        
+
         $searchResults = $this->searchResultsFactory->create();
         $searchResults->setSearchCriteria($criteria);
         $searchResults->setTotalCount($collection->getSize());
@@ -149,11 +114,9 @@ class LoginAsCustomerRepository implements LoginAsCustomerRepositoryInterface
         return $searchResults;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function delete(
-        \KiwiCommerce\LoginAsCustomer\Api\Data\LoginAsCustomerInterface $loginAsCustomer
+        \Web\LoginAsCustomer\Api\Data\LoginAsCustomerInterface $loginAsCustomer
     ) {
         try {
             $loginAsCustomer->getResource()->delete($loginAsCustomer);
@@ -165,9 +128,7 @@ class LoginAsCustomerRepository implements LoginAsCustomerRepositoryInterface
         }
         return true;
     }
-    /**
-     * {@inheritdoc}
-     */
+
     public function deleteById($loginAsCustomerId)
     {
         return $this->delete($this->getById($loginAsCustomerId));

@@ -1,11 +1,13 @@
 <?xml version="1.0" ?>
-
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
-        <add action="al_login_as/loginascustomer/index"
-             id="KiwiCommerce::kiwicommerce_login_as_customer" module="KiwiCommerce_LoginAsCustomer"
-             parent="Magento_Customer::customer" resource="KiwiCommerce_LoginAsCustomer::kiwicommerce_login_as_customer" sortOrder="9999"
+        <add action="login/loginascustomer/index"
+             id="Web::web_login_as_customer"
+             module="Web_LoginAsCustomer"
+             parent="Magento_Customer::customer"
+             resource="Web_LoginAsCustomer::all"
+             sortOrder="9999"
              title="Login As Customer"/>
     </menu>
 </config>

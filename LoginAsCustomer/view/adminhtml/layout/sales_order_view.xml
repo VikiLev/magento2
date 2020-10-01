@@ -2,7 +2,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceBlock name="sales_order_edit">
-            <block class="Web\Login\Block\Adminhtml\Order\View" name="sales_order_edits" />
+            <block class="Web\LoginAsCustomer\Block\Adminhtml\Order\View" name="custom_buttons" />
         </referenceBlock>
     </body>
 </page>

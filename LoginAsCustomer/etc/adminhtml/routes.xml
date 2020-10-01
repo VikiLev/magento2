@@ -2,7 +2,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
     <router id="admin">
-        <route frontName="alt_login" id="al_login_as">
+        <route frontName="login" id="login">
             <module before="Magento_Backend" name="Web_LoginAsCustomer"/>
         </route>
         <route frontName="loginascustomer" id="loginascustomer">

@@ -1,87 +1,50 @@
 <?php
-/**
- * KiwiCommerce
- *
- * Do not edit or add to this file if you wish to upgrade to newer versions in the future.
- * If you wish to customize this module for your needs.
- * Please contact us https://kiwicommerce.co.uk/contacts.
- *
- * @category   KiwiCommerce
- * @package    KiwiCommerce_LoginAsCustomer
- * @copyright  Copyright (C) 2018 Kiwi Commerce Ltd(https://kiwicommerce.co.uk/)
- * @license    https://kiwicommerce.co.uk/magento2-extension-license/
- */
 
-namespace KiwiCommerce\LoginAsCustomer\Controller\Adminhtml\LoginAsCustomer;
+namespace Web\LoginAsCustomer\Controller\Adminhtml\LoginAsCustomer;
 
 class Login extends \Magento\Backend\App\Action
 {
-    /**
-     * LoginAsCustomer constructor.
-     * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
-     */
 
-    /**
-     * @var \Magento\Framework\View\Result\PageFactory
-     */
-    public $resultPageFactory;
+    public $LoginCustomer;
+    public $Session;
+    public $StoreManager;
+    public $Url;
+    public $random;
+    public $model;
+    public $authorization;
 
-    /**
-     * @var \KiwiCommerce\LoginAsCustomer\Model\LoginAsCustomer
-     */
-    public $kiwiLoginCustomer;
-
-    /**
-     * @var \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress
-     */
-    public $kiwiRemoteAddress;
-
-    /**
-     * @var \Magento\Backend\Model\Auth\Session
-     */
-    public $kiwiSession;
-
-    /**
-     * @var \Magento\Store\Model\StoreManagerInterface
-     */
-    public $kiwiStoreManager;
-
-    /**
-     * @var \Magento\Framework\Url
-     */
-    public $kiwiUrl;
 
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Framework\View\Result\PageFactory $resultPageFactory,
-        \KiwiCommerce\LoginAsCustomer\Model\LoginAsCustomer $kiwiLoginCustomer,
-        \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $kiwiRemoteAddress,
-        \Magento\Backend\Model\Auth\Session $kiwiSession,
-        \Magento\Store\Model\StoreManagerInterface $kiwiStoreManager,
-        \Magento\Framework\Url $kiwiUrl
-    ) {
-        $this->resultPageFactory = $resultPageFactory;
-        $this->kiwiLoginCustomer = $kiwiLoginCustomer;
-        $this->kiwiRemoteAddress = $kiwiRemoteAddress;
-        $this->kiwiSession = $kiwiSession;
-        $this->kiwiStoreManager = $kiwiStoreManager;
-        $this->kiwiUrl = $kiwiUrl;
+        \Web\LoginAsCustomer\Model\LoginAsCustomer $LoginCustomer,
+        \Magento\Backend\Model\Auth\Session $Session,
+        \Magento\Store\Model\StoreManagerInterface $StoreManager,
+        \Magento\Framework\Url $Url,
+        \Magento\Framework\Math\Random $random,
+        \Web\LoginAsCustomer\Model\LoginAsCustomerFactory $model
+
+    )
+    {
+        $this->authorization = $context->getAuthorization();
+        $this->LoginCustomer = $LoginCustomer;
+        $this->Session = $Session;
+        $this->StoreManager = $StoreManager;
+        $this->Url = $Url;
+        $this->model = $model;
+        $this->random = $random;
+
         parent::__construct($context);
     }
 
-    /**
-     * Index action
-     *
-     * @return \Magento\Framework\Controller\ResultInterface
-     */
+    protected function _isAllowed()
+    {
+        return $this->_authorization->isAllowed('Web_LoginAsCustomer::CustomerView');
+    }
     public function execute()
     {
-        $customerId = (int) $this->getRequest()->getParam('customer_id');
-        $loginFrom = (int) $this->getRequest()->getParam('login_from');
-        $login = $this->kiwiLoginCustomer->setCustomerId($customerId);
+        $customerId = (int)$this->getRequest()->getParam('customer_id');
+        $login = $this->LoginCustomer->setCustomerId($customerId);
 
-        $login->deleteNotUsed();
         $customer = $login->getCustomer();
 
         if (!$customer->getId()) {
@@ -89,38 +52,46 @@ class Login extends \Magento\Backend\App\Action
             $this->_redirect('customer/index/index');
             return;
         }
-        $user = $this->kiwiSession->getUser();
-
-        /*Pass admin data*/
+        $user = $this->Session->getUser();
 
         $adminId = $user->getId();
-        $adminName = $user->getfirstname();
         $adminUsername = $user->getusername();
         $customerEmail = $customer->getEmail();
+        $customerName = $customer->getName();
         $customerStoreId = $customer->getData('store_id');
 
-        /*Get ip address of client*/
-        $ip = $this->kiwiRemoteAddress->getRemoteAddress();
 
-        /*Client ip address code end*/
 
-        $login->generate(
-            $adminId,
-            $adminName,
-            $adminUsername,
-            $loginFrom,
-            $customerEmail,
-            $ip
-        );
-        $store = $this->kiwiStoreManager->getStore($customerStoreId);
-        $url = $this->kiwiUrl->setScope($store);
-        $redirectUrl = $url->getUrl(
-            'loginascustomer/login/index',
-            ['secret' => $login->getSecret(),
-                '_nosid' => true]
-        );
-        $this->getResponse()->setRedirect(
-            $redirectUrl
-        );
-    }
+//        $login->generate(
+//            $adminUsername,
+//            $customerEmail,
+//            $customerName
+//        );
+
+        $loginModel = $this->model->create();
+        $data = ['customer_id' => $customerId,
+            'customer_name' => $customerName,
+            'customer_email' => $customerEmail,
+            'admin_username' => $adminUsername,
+            'secret' => $this->random->getRandomString(64)
+        ];
+        $loginModel->setData($data);
+        $loginModel->save();
+        $login->setData($data);
+
+
+        $store = $this->StoreManager->getStore($customerStoreId);
+        $url = $this->Url->setScope($store);
+
+
+            $redirectUrl = $url->getUrl(
+                'loginascustomer/login/index',
+                ['secret' => $login->getSecret(),
+                    '_nosid' => true]
+            );
+            $this->getResponse()->setRedirect(
+                $redirectUrl
+            );
+        }
 }
+
