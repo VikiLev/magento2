@@ -1,0 +1,12 @@
+<?php $comment = $block->getOrderComment();
+    if($comment) : ?>
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?php echo 'Order Comment' ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <?php echo $comment ?>
+    </div>
+</section>
+    <?php endif; ?>
+

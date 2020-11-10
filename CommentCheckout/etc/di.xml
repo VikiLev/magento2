@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <preference for="Web\CommentCheckout\Api\Data\OrderCommentInterface"
+                type="Web\CommentCheckout\Model\Data\OrderComment"/>
+    <preference for="Web\CommentCheckout\Api\OrderCommentManagementInterface"
+                type="Web\CommentCheckout\Model\OrderCommentManagement"/>
+    <preference for="Web\CommentCheckout\Api\GuestOrderCommentManagementInterface"
+                type="Web\CommentCheckout\Model\GuestOrderCommentManagement"/>
+
+
+    <!--    <type name="Magento\Checkout\Block\Checkout\LayoutProcessor">-->
+    <!--            <plugin name="checkout_custom_comment" type="Web\CommentCheckout\Plugin\Checkout\LayoutProcessorPlugin" sortOrder="20" />-->
+    <!--        </type>-->
+
+    <type name="Magento\Sales\Api\OrderRepositoryInterface">
+        <plugin name="web_load_ordercomment" type="Web\CommentCheckout\Plugin\Model\Order\LoadOrderComment"/>
+    </type>
+
+
+</config>
