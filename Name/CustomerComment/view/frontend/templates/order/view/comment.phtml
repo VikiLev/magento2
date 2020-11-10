@@ -1,0 +1,16 @@
+<?php
+/** @var \Name\CustomerComment\Block\Order\Comment $block */
+?>
+<?php $comment = $block->getOrderComment();
+    if($comment) : ?>
+<div class="block block-order-details-view">
+    <div class="block-content">
+        <div class="box box-order-comment">
+            <strong class="box-title"><span><?php /* @escapeNotVerified */ echo __('Order Comment') ?></span></strong>
+            <div class="box-content">
+               <?php echo $comment;?>
+            </div>
+        </div>
+    </div>
+</div>
+    <?php endif; ?>

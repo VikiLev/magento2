@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock  name = "order_additional_info">
+        <block class="Name\CustomerComment\Block\Order\Comment" name="customer_comments" template="Name_CustomerComment::order/view/comments.phtml" />
+        </referenceBlock>
+    </body>
+</page>
