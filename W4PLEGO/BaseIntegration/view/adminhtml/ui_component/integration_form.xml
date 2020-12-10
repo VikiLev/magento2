@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">integration_form.integration_form_data_source</item>
+            <item name="deps" xsi:type="string">integration_form.integration_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Integration Information</item>
+        <item name="config" xsi:type="array">
+            <item name="dataScope" xsi:type="string">data</item>
+            <item name="namespace" xsi:type="string">integration_form</item>
+        </item>
+        <item name="spinner" xsi:type="string">integration_information</item>
+        <item name="buttons" xsi:type="array">
+            <item name="back" xsi:type="string">W4PLEGO\BaseIntegration\Block\Adminhtml\Integration\Edit\Button\Back</item>
+            <item name="reset" xsi:type="string">W4PLEGO\BaseIntegration\Block\Adminhtml\Integration\Edit\Button\Reset</item>
+            <item name="save" xsi:type="string">W4PLEGO\BaseIntegration\Block\Adminhtml\Integration\Edit\Button\Save</item>
+        </item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <dataSource name="integration_form_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">W4PLEGO\BaseIntegration\Model\Integration\Form\DataProvider</argument>
+            <argument name="name" xsi:type="string">integration_form_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="submit_url" xsi:type="url" path="*/*/save"/>
+                </item>
+            </argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+    <fieldset name="integration_information">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="collapsible" xsi:type="boolean">false</item>
+                <item name="label" xsi:type="string" translate="true">Integration Information</item>
+                <item name="sortOrder" xsi:type="number">20</item>
+            </item>
+        </argument>
+        <field name="integration_name">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">integration_name</item>
+                </item>
+            </argument>
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Integration Name</label>
+                <dataScope>integration_name</dataScope>
+            </settings>
+        </field>
+        <field name="process_class">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Integration Process Class Path</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">process_class</item>
+                    <item name="dataScope" xsi:type="string">process_class</item>
+                </item>
+            </argument>
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+        <field name="process_code">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Integration Process Code</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">process_code</item>
+                    <item name="dataScope" xsi:type="string">process_code</item>
+                </item>
+            </argument>
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+        <field name="cron_enable" formElement="checkbox">
+            <settings>
+                <label translate="true">Enable Cron</label>
+                <dataType>text</dataType>
+                <dataScope>cron_enable</dataScope>
+                <switcherConfig>
+                    <rules>
+                        <rule name="0">
+                            <value>0</value>
+                            <actions>
+                                <action name="0">
+                                    <target>integration_form.integration_form.integration_information.schedule_hour</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="1">
+                                    <target>integration_form.integration_form.integration_information.schedule_min</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="2">
+                                    <target>integration_form.integration_form.integration_information.frequency</target>
+                                    <callback>hide</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="1">
+                            <value>1</value>
+                            <actions>
+                                <action name="0">
+                                    <target>integration_form.integration_form.integration_information.schedule_hour</target>
+                                    <callback>show</callback>
+                                </action>
+                                <action name="1">
+                                    <target>integration_form.integration_form.integration_information.schedule_min</target>
+                                    <callback>show</callback>
+                                </action>
+                                <action name="2">
+                                    <target>integration_form.integration_form.integration_information.frequency</target>
+                                    <callback>show</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                    </rules>
+                    <enabled>true</enabled>
+                </switcherConfig>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <prefer>toggle</prefer>
+                        <valueMap>
+                            <map name="false" xsi:type="string">0</map>
+                            <map name="true" xsi:type="string">1</map>
+                        </valueMap>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+        <field name="schedule_hour" formElement="select">
+            <settings>
+                <dataType>string</dataType>
+                <label translate="true">Scheduled Hour</label>
+                <dataScope>schedule_hour</dataScope>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="W4PLEGO\BaseIntegration\Model\Integration\Source\Hours" />
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="schedule_min" formElement="select">
+            <settings>
+                <dataType>string</dataType>
+                <label translate="true">Scheduled Minutes</label>
+                <dataScope>schedule_min</dataScope>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="W4PLEGO\BaseIntegration\Model\Integration\Source\Minutes" />
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="frequency" formElement="select">
+            <settings>
+                <dataType>string</dataType>
+                <label translate="true">Frequency</label>
+                <dataScope>frequency</dataScope>
+                <switcherConfig>
+                    <rules>
+                        <rule name="0">
+                            <value>halfhourly</value>
+                            <actions>
+                                <action name="0">
+                                    <target>integration_form.integration_form.integration_information.schedule_hour</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="1">
+                                    <target>integration_form.integration_form.integration_information.schedule_min</target>
+                                    <callback>hide</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="1">
+                            <value>hourly</value>
+                            <actions>
+                                <action name="0">
+                                    <target>integration_form.integration_form.integration_information.schedule_hour</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="1">
+                                    <target>integration_form.integration_form.integration_information.schedule_min</target>
+                                    <callback>hide</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="2">
+                            <value>daily</value>
+                            <actions>
+                                <action name="0">
+                                    <target>integration_form.integration_form.integration_information.schedule_hour</target>
+                                    <callback>show</callback>
+                                </action>
+                                <action name="1">
+                                    <target>integration_form.integration_form.integration_information.schedule_min</target>
+                                    <callback>show</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="3">
+                            <value>weekly</value>
+                            <actions>
+                                <action name="0">
+                                    <target>integration_form.integration_form.integration_information.schedule_hour</target>
+                                    <callback>show</callback>
+                                </action>
+                                <action name="1">
+                                    <target>integration_form.integration_form.integration_information.schedule_min</target>
+                                    <callback>show</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="4">
+                            <value>monthly</value>
+                            <actions>
+                                <action name="0">
+                                    <target>integration_form.integration_form.integration_information.schedule_hour</target>
+                                    <callback>show</callback>
+                                </action>
+                                <action name="1">
+                                    <target>integration_form.integration_form.integration_information.schedule_min</target>
+                                    <callback>show</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                    </rules>
+                    <enabled>true</enabled>
+                </switcherConfig>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options>
+                            <option name="0" xsi:type="array">
+                                <item name="value" xsi:type="string">halfhourly</item>
+                                <item name="label" xsi:type="string">Half-Hourly</item>
+                            </option>
+                            <option name="1" xsi:type="array">
+                                <item name="value" xsi:type="string">hourly</item>
+                                <item name="label" xsi:type="string">Hourly</item>
+                            </option>
+                            <option name="2" xsi:type="array">
+                                <item name="value" xsi:type="string">daily</item>
+                                <item name="label" xsi:type="string">Daily</item>
+                            </option>
+                            <option name="3" xsi:type="array">
+                                <item name="value" xsi:type="string">weekly</item>
+                                <item name="label" xsi:type="string">Weekly</item>
+                            </option>
+                            <option name="4" xsi:type="array">
+                                <item name="value" xsi:type="string">monthly</item>
+                                <item name="label" xsi:type="string">Monthly</item>
+                            </option>
+                        </options>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+    </fieldset>
+</form>

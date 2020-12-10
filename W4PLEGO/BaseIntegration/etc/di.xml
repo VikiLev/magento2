@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <preference for="W4PLEGO\BaseIntegration\Api\IntegrationRepositoryInterface"
+                type="W4PLEGO\BaseIntegration\Model\ResourceModel\IntegrationRepository" />
+    <preference for="W4PLEGO\BaseIntegration\Api\Data\IntegrationInterface"
+                type="W4PLEGO\BaseIntegration\Model\Integration" />
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="integration_list_data_source" xsi:type="string">W4PLEGO\BaseIntegration\Model\ResourceModel\Integration\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <virtualType name="W4PLEGO\BaseIntegration\Model\ResourceModel\Integration\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">w4plego_integrations</argument>
+            <argument name="resourceModel" xsi:type="string">W4PLEGO\BaseIntegration\Model\ResourceModel\Integration</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="GridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="GridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">W4PLEGO\BaseIntegration\Model\ResourceModel\Integration\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">GridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="W4PLEGO\BaseIntegration\Model\Logger\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+
+    <type name="W4PLEGO\BaseIntegration\Model\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">::</argument>
+            <argument name="handlers" xsi:type="array">
+                <item name="system" xsi:type="object">W4PLEGO\BaseIntegration\Model\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+
+</config>

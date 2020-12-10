@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="W4PLEGO_BaseIntegration::w4plego_baseintegration_integrations" title="Integrations" module="W4PLEGO_BaseIntegration"
+             sortOrder="30" resource="W4PLEGO_BaseIntegration::integrations" parent="W4PLEGO_Base::web4pro"/>
+        <add id="W4PLEGO_BaseIntegration::w4plego_baseintegration_processes" title="Processes"
+             module="W4PLEGO_BaseIntegration" parent="W4PLEGO_BaseIntegration::w4plego_baseintegration_integrations"
+             resource="W4PLEGO_BaseIntegration::processes" sortOrder="40" action="integration/integration"/>
+        <add id="W4PLEGO_BaseIntegration::w4plego_baseintegration_logs" title="Logs" module="W4PLEGO_BaseIntegration" parent="W4PLEGO_BaseIntegration::w4plego_baseintegration_integrations"
+             resource="W4PLEGO_BaseIntegration::logs" sortOrder="50" action="integration/logs"/>
+    </menu>
+</config>
